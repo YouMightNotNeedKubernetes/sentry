@@ -1,0 +1,4 @@
+*.yml
+!*.example.yml
+*.py
+!*.example.py

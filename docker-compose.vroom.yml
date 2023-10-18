@@ -1,0 +1,35 @@
+services:
+  vroom:
+    image: getsentry/vroom:nightly
+    environment:
+      SENTRY_KAFKA_BROKERS_PROFILING: "kafka:9092"
+      SENTRY_KAFKA_BROKERS_OCCURRENCES: "kafka:9092"
+      SENTRY_BUCKET_PROFILES: file://localhost//var/lib/sentry-profiles
+      SENTRY_SNUBA_HOST: "http://snuba-api:1218"
+    networks:
+      - sentry
+    volumes:
+      - vroom:/var/lib/sentry-profiles
+
+  # vroom-cleanup:
+  #   image: vroom-cleanup-self-hosted-local
+  #   build:
+  #     context: ./cron
+  #     args:
+  #       BASE_IMAGE: "$VROOM_IMAGE"
+  #   entrypoint: "/entrypoint.sh"
+  #   environment:
+  #     # Leaving the value empty to just pass whatever is set
+  #     # on the host system (or in the .env file)
+  #     SENTRY_EVENT_RETENTION_DAYS:
+  #   command: '"0 0 * * * find /var/lib/sentry-profiles -type f -mtime +$SENTRY_EVENT_RETENTION_DAYS -delete"'
+  #   volumes:
+  #     - sentry-vroom:/var/lib/sentry-profiles
+
+networks:
+  sentry:
+    name: sentry
+    external: true
+
+volumes:
+  vroom:

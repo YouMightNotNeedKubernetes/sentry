@@ -1,0 +1,33 @@
+services:
+  symbolicator:
+    image: getsentry/symbolicator:nightly
+    command: run -c /etc/symbolicator/config.yml
+    networks:
+      - sentry
+    configs:
+      - source: symbolicator
+        target: /etc/symbolicator/config.yml
+    volumes:
+      - "symbolicator:/data"
+
+  # symbolicator-cleanup:
+  #     #   image: symbolicator-cleanup-self-hosted-local
+  #   build:
+  #     context: ./cron
+  #     args:
+  #       BASE_IMAGE: "$SYMBOLICATOR_IMAGE"
+  #   command: '"55 23 * * * gosu symbolicator symbolicator cleanup"'
+  #   volumes:
+  #     - "symbolicator:/data"
+
+networks:
+  sentry:
+    name: sentry
+    external: true
+
+volumes:
+  symbolicator:
+
+configs:
+  symbolicator:
+    file: services/symbolicator/config.yml
