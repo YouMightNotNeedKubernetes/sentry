@@ -93,6 +93,11 @@ services:
   worker:
     <<: *sentry_defaults
     command: run worker
+    deploy:
+      resources:
+        limits:
+          cpus: '0.4'
+          memory: 1G
 
   events-consumer:
     <<: *sentry_defaults
