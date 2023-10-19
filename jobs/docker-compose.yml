@@ -13,7 +13,7 @@ services:
     deploy:
       mode: global-job
 
-  kafka:
+  create-kafka-topics:
     image: confluentinc/cp-kafka:7.5.0
     configs:
       - source: create-kafka-topics.sh
@@ -24,6 +24,25 @@ services:
       - sentry
     deploy:
       mode: replicated-job
+
+  snuba-bootstrap: &snuba-job
+    image: getsentry/snuba:nightly
+    command: bootstrap --no-migrate --force
+    environment:
+      SNUBA_SETTINGS: self_hosted
+      CLICKHOUSE_HOST: clickhouse
+      DEFAULT_BROKERS: "kafka:9092"
+      REDIS_HOST: redis
+    networks:
+      - sentry
+    deploy:
+      mode: replicated-job
+
+  snuba-migrations:
+    <<: *snuba-job
+    command: migrations migrate --force
+    depends_on:
+      - snuba-bootstrap
 
 networks:
   sentry:
