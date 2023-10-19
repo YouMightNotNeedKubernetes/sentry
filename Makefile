@@ -3,12 +3,12 @@ docker_stack_name := sentry
 
 # funcs
 define create_task
-deploy/$(1):
+$(1)/deploy:
 	@echo "[INFO] Deploying stack $(docker_stack_name)_$(1)"
 	@$(MAKE) -C $(1) deploy docker_stack_name=$(docker_stack_name)
 	@echo "[INFO] Deployed successfully!"
 	@echo
-destroy/$(1):
+$(1)/destroy:
 	@echo "[INFO] Destroying stack $(docker_stack_name)_$(1)"
 	@$(MAKE) -C $(1) destroy docker_stack_name=$(docker_stack_name)
 	@echo "[INFO] Destroyed successfully!"
@@ -26,19 +26,19 @@ $(eval $(call create_task,vroom))
 
 # Primary tasks
 deploy: \
-	deploy/dev \
-	deploy/jobs \
-	deploy/sentry \
-	deploy/relay \
-	deploy/snuba \
-	deploy/symbolicator \
-	deploy/vroom
+	dev/deploy \
+	jobs/deploy \
+	sentry/deploy \
+	relay/deploy \
+	snuba/deploy \
+	symbolicator/deploy \
+	vroom/deploy
 
 destroy: \
-	destroy/dev \
-	destroy/jobs \
-	destroy/sentry \
-	destroy/relay \
-	destroy/snuba \
-	destroy/symbolicator \
-	destroy/vroom
+	dev/destroy \
+	jobs/destroy \
+	sentry/destroy \
+	relay/destroy \
+	snuba/destroy \
+	symbolicator/destroy \
+	vroom/destroy
