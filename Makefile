@@ -4,13 +4,15 @@ docker_stack_name := sentry
 # funcs
 define create_task
 deploy/$(1):
-	@echo "[-] Deploying stack $(docker_stack_name)_$(1)"
+	@echo "[INFO] Deploying stack $(docker_stack_name)_$(1)"
 	@$(MAKE) -C $(1) deploy docker_stack_name=$(docker_stack_name)
-	@echo " - [OK] Deployed successfully!"
+	@echo "[INFO] Deployed successfully!"
+	@echo
 destroy/$(1):
-	@echo "[-] Destroying stack $(docker_stack_name)_$(1)"
+	@echo "[INFO] Destroying stack $(docker_stack_name)_$(1)"
 	@$(MAKE) -C $(1) destroy docker_stack_name=$(docker_stack_name)
-	@echo " - [OK] Destroyed successfully!"
+	@echo "[INFO] Destroyed successfully!"
+	@echo
 endef
 
 # Create tasks
@@ -24,28 +26,19 @@ $(eval $(call create_task,vroom))
 
 # Primary tasks
 deploy: \
-	deploy/dev sleep/15 \
-	deploy/jobs sleep/15 \
-	deploy/sentry sleep/120 \
-	deploy/relay sleep/15 \
-	deploy/snuba sleep/120 \
-	deploy/symbolicator sleep/15 \
+	deploy/dev 
+	deploy/jobs \
+	deploy/sentry \
+	deploy/relay \
+	deploy/snuba \
+	deploy/symbolicator \
 	deploy/vroom
 
 destroy: \
-	destroy/dev sleep/15 \
-	destroy/jobs sleep/15 \
-	destroy/sentry sleep/15 \
-	destroy/relay sleep/15 \
-	destroy/snuba sleep/15 \
-	destroy/symbolicator sleep/15 \
+	destroy/dev \
+	destroy/jobs \
+	destroy/sentry \
+	destroy/relay \
+	destroy/snuba \
+	destroy/symbolicator \
 	destroy/vroom
-
-# Utils
-sleep/15:
-	@echo "[-] Waiting for next task for 15 seconds..."
-	@sleep 15
-
-sleep/120:
-	@echo "[-] Waiting for next task for 120 seconds..."
-	@sleep 120
