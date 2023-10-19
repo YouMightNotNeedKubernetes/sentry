@@ -13,6 +13,23 @@ services:
     deploy:
       mode: global-job
 
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    configs:
+      - source: create-kafka-topics.sh
+        target: /create-kafka-topics.sh
+        mode: 0755
+    entrypoint: ["/create-kafka-topics.sh"]
+    networks:
+      - sentry
+    deploy:
+      mode: replicated-job
+
+networks:
+  sentry:
+    name: sentry
+    external: true
+
 volumes:
   geoip:
     name: geoip
@@ -21,3 +38,5 @@ volumes:
 configs:
   GeoIP.conf:
     file: services/geoipupdate/GeoIP.conf
+  create-kafka-topics.sh:
+    file: services/kafka/create-kafka-topics.sh
