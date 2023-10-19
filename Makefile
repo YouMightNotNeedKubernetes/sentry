@@ -18,27 +18,27 @@ endef
 # Create tasks
 $(eval $(call create_task,dev))
 $(eval $(call create_task,jobs))
-$(eval $(call create_task,relay))
-$(eval $(call create_task,sentry))
 $(eval $(call create_task,snuba))
 $(eval $(call create_task,symbolicator))
 $(eval $(call create_task,vroom))
+$(eval $(call create_task,sentry))
+$(eval $(call create_task,relay))
 
 # Primary tasks
 deploy: \
 	dev/deploy \
 	jobs/deploy \
-	sentry/deploy \
-	relay/deploy \
 	snuba/deploy \
 	symbolicator/deploy \
-	vroom/deploy
+	vroom/deploy \
+	sentry/deploy \
+	relay/deploy
 
 destroy: \
-	dev/destroy \
-	jobs/destroy \
-	sentry/destroy \
 	relay/destroy \
-	snuba/destroy \
+	sentry/destroy \
+	vroom/destroy \
 	symbolicator/destroy \
-	vroom/destroy
+	snuba/destroy \
+	jobs/destroy \
+	dev/destroy
