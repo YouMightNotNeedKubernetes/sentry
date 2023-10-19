@@ -30,4 +30,4 @@ volumes:
 
 configs:
   symbolicator:
-    file: services/symbolicator/config.yml
+    file: configs/config.yml

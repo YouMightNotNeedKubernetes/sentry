@@ -1,64 +1,51 @@
+-include .env
 docker_stack_name := sentry
 
-compose_files := -c docker-compose.yml
-# compose_files += -c docker-compose.relay.yml
-# compose_files += -c docker-compose.sentry.yml
-# compose_files += -c docker-compose.snuba.yml
-# compose_files += -c docker-compose.symbolicator.yml
-# compose_files += -c docker-compose.vroom.yml
-compose_files += -c docker-compose.jobs.yml
-# compose_files += -c docker-compose.extras.yml
+# funcs
+define create_task
+deploy/$(1):
+	@echo "[-] Deploying stack $(docker_stack_name)_$(1)"
+	@$(MAKE) -C $(1) deploy docker_stack_name=$(docker_stack_name)
+	@echo " - [OK] Deployed successfully!"
+destroy/$(1):
+	@echo "[-] Destroying stack $(docker_stack_name)_$(1)"
+	@$(MAKE) -C $(1) destroy docker_stack_name=$(docker_stack_name)
+	@echo " - [OK] Destroyed successfully!"
+endef
 
-it:
-	@echo "make [deploy|destroy]"
+# Create tasks
+$(eval $(call create_task,dev))
+$(eval $(call create_task,jobs))
+$(eval $(call create_task,relay))
+$(eval $(call create_task,sentry))
+$(eval $(call create_task,snuba))
+$(eval $(call create_task,symbolicator))
+$(eval $(call create_task,vroom))
 
-print:
-	@docker stack config $(compose_files)
-
+# Primary tasks
 deploy: \
-	deploy-dev \
-	deploy-default \
-	deploy-relay \
-	deploy-snuba \
-	deploy-symbolicator \
-	deploy-vroom \
-	deploy-sentry
+	deploy/dev sleep/15 \
+	deploy/jobs sleep/15 \
+	deploy/sentry sleep/120 \
+	deploy/relay sleep/15 \
+	deploy/snuba sleep/120 \
+	deploy/symbolicator sleep/15 \
+	deploy/vroom
 
-deploy-default:
-	docker stack deploy $(compose_files) --with-registry-auth $(docker_stack_name)_default
-	@echo "Preparing next task..."
-	@sleep 15
-deploy-sentry:
-	docker stack deploy -c docker-compose.sentry.yml --with-registry-auth $(docker_stack_name)
-	@echo "Preparing next task..."
-	@sleep 15
-deploy-relay:
-	docker stack deploy -c docker-compose.relay.yml --with-registry-auth $(docker_stack_name)_relay
-	@echo "Preparing next task..."
-	@sleep 15
-deploy-snuba:
-	docker stack deploy -c docker-compose.snuba.yml --with-registry-auth $(docker_stack_name)_snuba
-	@echo "Preparing next task..."
-	@sleep 15
-deploy-symbolicator:
-	docker stack deploy -c docker-compose.symbolicator.yml --with-registry-auth $(docker_stack_name)_symbolicator
-	@echo "Preparing next task..."
-	@sleep 15
-deploy-vroom:
-	docker stack deploy -c docker-compose.vroom.yml --with-registry-auth $(docker_stack_name)_vroom
-	@echo "Preparing next task..."
-	@sleep 15
-deploy-dev:
-	docker stack deploy -c docker-compose.dev.yml --with-registry-auth $(docker_stack_name)_dev
-	@echo "Preparing next task..."
+destroy: \
+	destroy/dev sleep/15 \
+	destroy/jobs sleep/15 \
+	destroy/sentry sleep/15 \
+	destroy/relay sleep/15 \
+	destroy/snuba sleep/15 \
+	destroy/symbolicator sleep/15 \
+	destroy/vroom
+
+# Utils
+sleep/15:
+	@echo "[-] Waiting for next task for 15 seconds..."
 	@sleep 15
 
-destroy:
-	docker stack rm \
-		$(docker_stack_name)_default \
-		$(docker_stack_name) \
-		$(docker_stack_name)_relay \
-		$(docker_stack_name)_snuba \
-		$(docker_stack_name)_symbolicator \
-		$(docker_stack_name)_vroom \
-		$(docker_stack_name)_dev
+sleep/120:
+	@echo "[-] Waiting for next task for 120 seconds..."
+	@sleep 120

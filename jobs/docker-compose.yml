@@ -20,4 +20,4 @@ volumes:
 
 configs:
   GeoIP.conf:
-    file: jobs/geoipupdate/GeoIP.conf
+    file: services/geoipupdate/GeoIP.conf

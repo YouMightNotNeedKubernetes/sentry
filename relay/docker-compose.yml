@@ -22,9 +22,9 @@ networks:
 
 configs:
   relay-config:
-    file: services/relay/config.yml
+    file: configs/config.yml
   relay-credentials:
-    file: services/relay/credentials.json
+    file: configs/credentials.json
 
 volumes:
   geoip:
