@@ -25,8 +25,8 @@ $(eval $(call create_task,relay))
 
 $(eval $(call create_task,sentry))
 sentry/migration:
-	@echo "[INFO] Deploying stack migration for $(docker_stack_name)_$(1)"
-	@$(MAKE) -C $(1) migration docker_stack_name=$(docker_stack_name)
+	@echo "[INFO] Deploying stack migration for $(docker_stack_name)_sentry"
+	@$(MAKE) -C sentry migration docker_stack_name=$(docker_stack_name)
 	@echo "[INFO] Deployed successfully!"
 	@echo
 
