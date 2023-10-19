@@ -15,7 +15,7 @@ $(1)/destroy:
 	@echo
 endef
 define create_migration_task
-$(1)/deploy:
+$(1)/migration:
 	@echo "[INFO] Running stack migration $(docker_stack_name)_$(1)"
 	@$(MAKE) -C $(1) migration docker_stack_name=$(docker_stack_name)
 	@echo "[INFO] Stack migration successfully!"
