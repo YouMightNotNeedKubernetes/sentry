@@ -2,24 +2,29 @@
 -include .env
 docker_stack_name := sentry
 
+it:
+	@echo "- [INFO] Creating swarm-scoped network for sentry"
+	@{ docker network create --scope=swarm --driver overlay --attachable sentry && echo "- [INFO] Network created successfully!"; } || { echo "[IGNORE] Network already exists"; }
+
 # funcs
 define create_task
 $(1)/deploy:
-	@echo "[INFO] Deploying stack $(docker_stack_name)_$(1)"
+	@echo "- [INFO] Deploying stack $(docker_stack_name)_$(1)"
+	@$(MAKE) -C $(1) configs
 	@$(MAKE) -C $(1) deploy docker_stack_name=$(docker_stack_name)
-	@echo "[INFO] Deployed successfully!"
+	@echo "- [INFO] Deployed successfully!"
 	@echo
 $(1)/destroy:
-	@echo "[INFO] Destroying stack $(docker_stack_name)_$(1)"
+	@echo "- [INFO] Destroying stack $(docker_stack_name)_$(1)"
 	@$(MAKE) -C $(1) destroy docker_stack_name=$(docker_stack_name)
-	@echo "[INFO] Destroyed successfully!"
+	@echo "- [INFO] Destroyed successfully!"
 	@echo
 endef
 define create_migration_task
 $(1)/migration:
-	@echo "[INFO] Running stack migration $(docker_stack_name)_$(1)"
+	@echo "- [INFO] Running stack migration $(docker_stack_name)_$(1)"
 	@$(MAKE) -C $(1) migration docker_stack_name=$(docker_stack_name)
-	@echo "[INFO] Stack migration successfully!"
+	@echo "- [INFO] Stack migration successfully!"
 	@echo
 endef
 
@@ -59,7 +64,7 @@ destroy: \
 	jobs/destroy \
 	dev/destroy
 
-dev/pull:
+dev/pull: sentry/pull
 	@echo "Pulling development images..."
 	docker pull ${EXIM4_IMAGE}
 	docker pull ${MEMCACHED_IMAGE}
