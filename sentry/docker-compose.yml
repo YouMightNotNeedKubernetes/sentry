@@ -67,7 +67,7 @@ x-sentry-defaults: &sentry_defaults
     resources:
       limits:
         cpus: '0.2'
-        memory: 512M
+        memory: 128M
 
 services:
   web:
