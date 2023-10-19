@@ -106,7 +106,7 @@ services:
     #   start_period: 10s
 
   clickhouse:
-    image: yandex/clickhouse-server:20.3.9.70
+    image: ${CLICKHOUSE_IMAGE}
     networks:
       - sentry
     ulimits:

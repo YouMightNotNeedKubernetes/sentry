@@ -1,6 +1,6 @@
 services:
   symbolicator:
-    image: getsentry/symbolicator:nightly
+    image: ${SYMBOLICATOR_IMAGE}
     command: run -c /etc/symbolicator/config.yml
     networks:
       - sentry

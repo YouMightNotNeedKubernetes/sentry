@@ -1,6 +1,6 @@
 services:
   vroom:
-    image: getsentry/vroom:nightly
+    image: ${VROOM_IMAGE}
     environment:
       SENTRY_KAFKA_BROKERS_PROFILING: "kafka:9092"
       SENTRY_KAFKA_BROKERS_OCCURRENCES: "kafka:9092"

@@ -5,7 +5,7 @@ x-healthcheck: &healthcheck_defaults
   start_period: 10s
 
 x-sentry-defaults: &sentry_defaults
-  image: getsentry/sentry:nightly
+  image: ${SENTRY_IMAGE}
   environment:
     PYTHONUSERBASE: "/data/custom-packages"
     SENTRY_CONF: "/etc/sentry"

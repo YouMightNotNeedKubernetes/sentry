@@ -5,7 +5,7 @@ x-healthcheck: &healthcheck_defaults
   start_period: 10s
 
 x-snuba-defaults: &snuba_defaults
-  image: getsentry/snuba:nightly
+  image: ${SNUBA_IMAGE}
   environment:
     SNUBA_SETTINGS: "self_hosted"
     CLICKHOUSE_HOST: "clickhouse"
