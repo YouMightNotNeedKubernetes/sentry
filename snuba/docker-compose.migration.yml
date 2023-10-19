@@ -47,12 +47,16 @@ services:
   snuba-bootstrap:
     <<: *snuba_defaults
     command: bootstrap --no-migrate --force
+    deploy:
+      mode: replicated-job
 
   snuba-migrations:
     <<: *snuba_defaults
     command: migrations migrate --force
     depends_on:
       - snuba-bootstrap
+    deploy:
+      mode: replicated-job
 
   create-kafka-topics:
     image: ${KAFKA_IMAGE}
