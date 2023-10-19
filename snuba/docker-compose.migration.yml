@@ -55,7 +55,7 @@ services:
       - snuba-bootstrap
 
   create-kafka-topics:
-    image: confluentinc/cp-kafka:7.5.0
+    image: ${KAFKA_IMAGE}
     configs:
       - source: create-kafka-topics.sh
         target: /create-kafka-topics.sh
