@@ -69,6 +69,13 @@ x-sentry-defaults: &sentry_defaults
         cpus: '0.25'
         memory: 1G
 
+services:
+  database-migration:
+    <<: *sentry_defaults
+    command: upgrade --noinput
+    deploy:
+      mode: replicated-job
+
 networks:
   sentry:
     name: sentry

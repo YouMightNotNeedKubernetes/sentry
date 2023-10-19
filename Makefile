@@ -21,8 +21,14 @@ $(eval $(call create_task,jobs))
 $(eval $(call create_task,snuba))
 $(eval $(call create_task,symbolicator))
 $(eval $(call create_task,vroom))
-$(eval $(call create_task,sentry))
 $(eval $(call create_task,relay))
+
+$(eval $(call create_task,sentry))
+sentry/migration:
+	@echo "[INFO] Deploying stack migration for $(docker_stack_name)_$(1)"
+	@$(MAKE) -C $(1) migration docker_stack_name=$(docker_stack_name)
+	@echo "[INFO] Deployed successfully!"
+	@echo
 
 # Primary tasks
 deploy: \

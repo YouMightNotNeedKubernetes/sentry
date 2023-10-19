@@ -5,7 +5,10 @@ configs:
 	@echo "[SKIP] No configs available for this stack."
 
 deploy:
-	@docker stack deploy -c docker-compose.yml --with-registry-auth $(docker_stack_name)_$(docker_stack_svr)
+	@docker stack deploy -c docker-compose.yml -c docker-compose.sentry.yml --with-registry-auth $(docker_stack_name)_$(docker_stack_svr)
+
+migration:
+	@docker stack deploy -c docker-compose.yml -c docker-compose.migration.yml --with-registry-auth $(docker_stack_name)_$(docker_stack_svr)
 
 destroy:
 	@docker stack rm $(docker_stack_name)_$(docker_stack_svr)
