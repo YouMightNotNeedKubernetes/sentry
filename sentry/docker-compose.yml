@@ -31,8 +31,10 @@ x-sentry-defaults: &sentry_defaults
     # Set this value if you plan on using the Suggested Fix Feature
     OPENAI_API_KEY: ${OPENAI_API_KEY:-}
   configs:
-    - source: sentry-config
+    - source: sentry.yml
       target: /etc/sentry/config.yml
+    - source: sentry.conf.py
+      target: /etc/sentry/sentry.conf.py
   networks:
     - sentry
   volumes:
@@ -169,8 +171,10 @@ networks:
     external: true
 
 configs:
-  sentry-config:
+  sentry.yml:
     file: configs/config.yml
+  sentry.conf.py:
+    file: configs/sentry.conf.py
 
 volumes:
   sentry-data:
