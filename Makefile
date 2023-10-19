@@ -1,3 +1,4 @@
+-include .env.docker
 -include .env
 docker_stack_name := sentry
 
@@ -57,6 +58,23 @@ destroy: \
 	snuba/destroy \
 	jobs/destroy \
 	dev/destroy
+
+dev/pull:
+	@echo "Pulling development images..."
+	docker pull ${EXIM4_IMAGE}
+	docker pull ${MEMCACHED_IMAGE}
+	docker pull ${REDIS_IMAGE}
+	docker pull ${POSTGRES_IMAGE}
+	docker pull ${KAFKA_IMAGE}
+	docker pull ${CLICKHOUSE_IMAGE}
+
+sentry/pull:
+	@echo "Pulling sentry images"
+	docker pull ${SENTRY_IMAGE}
+	docker pull ${SNUBA_IMAGE}
+	docker pull ${RELAY_IMAGE}
+	docker pull ${SYMBOLICATOR_IMAGE}
+	docker pull ${VROOM_IMAGE}
 
 wal2json:
 	@echo "[INFO] Downloading wal2json"

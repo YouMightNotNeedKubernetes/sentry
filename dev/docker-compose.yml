@@ -6,7 +6,7 @@ x-healthcheck: &healthcheck_defaults
 
 services:
   smtp:
-    image: tianon/exim4
+    image: ${EXIM4_IMAGE}
     hostname: socheat.net
     volumes:
       - "smtp:/var/spool/exim4"
@@ -15,7 +15,7 @@ services:
       - sentry
 
   memcached:
-    image: memcached:1.6.21-alpine
+    image: ${MEMCACHED_IMAGE}
     command: ["-I", "${SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE:-1M}"]
     healthcheck:
       <<: *healthcheck_defaults
@@ -25,7 +25,7 @@ services:
       - sentry
 
   redis:
-    image: redis:6.2.13-alpine
+    image: ${REDIS_IMAGE}
     healthcheck:
       test: redis-cli ping
     volumes:
@@ -39,7 +39,7 @@ services:
 
   postgres:
     # Using the same postgres version as Sentry dev for consistency purposes
-    image: "postgres:14.5"
+    image: ${POSTGRES_IMAGE}
     networks:
       - sentry
     command:
@@ -68,7 +68,7 @@ services:
       - "postgres:/var/lib/postgresql/data"
 
   kafka:
-    image: confluentinc/cp-kafka:7.5.0
+    image: ${KAFKA_IMAGE}
     environment:
       # https://docs.confluent.io/platform/current/installation/docker/config-reference.html#cp-kakfa-example
       KAFKA_PROCESS_ROLES: "broker,controller"
