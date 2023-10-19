@@ -1,0 +1,8 @@
+services:
+  snuba-bootstrap:
+    <<: *snuba_defaults
+    command: bootstrap --no-migrate --force
+
+  snuba-migrations:
+    <<: *snuba_defaults
+    command: migrations migrate --force
