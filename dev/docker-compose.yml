@@ -77,6 +77,8 @@ services:
 
   clickhouse:
     image: yandex/clickhouse-server:20.3.9.70
+    networks:
+      - sentry
     ulimits:
       nofile:
         soft: 262144
