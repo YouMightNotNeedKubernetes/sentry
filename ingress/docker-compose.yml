@@ -1,6 +1,6 @@
 services:
   nginx:
-    image: nginx:1.25.2-alpine
+    image: ${NGINX_IMAGE}
     networks:
       - sentry
     ports:

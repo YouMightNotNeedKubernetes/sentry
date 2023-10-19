@@ -70,6 +70,7 @@ dev/pull:
 
 sentry/pull:
 	@echo "Pulling sentry images"
+	docker pull ${NGINX_IMAGE}
 	docker pull ${SENTRY_IMAGE}
 	docker pull ${SNUBA_IMAGE}
 	docker pull ${RELAY_IMAGE}
