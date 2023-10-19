@@ -8,4 +8,4 @@ deploy:
 	@docker stack deploy -c docker-compose.yml --with-registry-auth $(docker_stack_name)_$(docker_stack_svr)
 
 destroy:
-	@docker stack rm $(docker_stack_name)
+	@docker stack rm $(docker_stack_name)_$(docker_stack_svr)
