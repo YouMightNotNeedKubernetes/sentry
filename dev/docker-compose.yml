@@ -37,6 +37,32 @@ services:
     networks:
       - sentry
 
+  postgres:
+    # Using the same postgres version as Sentry dev for consistency purposes
+    image: "postgres:14.5"
+    networks:
+      - sentry
+    command:
+      [
+        "postgres",
+        "-c",
+        "wal_level=logical",
+        "-c",
+        "max_replication_slots=1",
+        "-c",
+        "max_wal_senders=1",
+      ]
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    entrypoint: /opt/sentry/postgres-entrypoint.sh
+    configs:
+      - source: postgres-entrypoint.sh
+        target: /opt/sentry/postgres-entrypoint.sh
+      - source: postgres-init_hba.sh
+        target: /opt/sentry/postgres-init_hba.sh
+    volumes:
+      - "postgres:/var/lib/postgresql/data"
+
   kafka:
     image: confluentinc/cp-kafka:7.5.0
     environment:
@@ -84,7 +110,7 @@ services:
         soft: 262144
         hard: 262144
     configs:
-      - source: clickhouse_config
+      - source: clickhouse.xml
         target: /etc/clickhouse-server/config.d/sentry.xml
     volumes:
       - "clickhouse:/var/lib/clickhouse"
@@ -112,13 +138,18 @@ networks:
     external: true
 
 configs:
-  clickhouse_config:
+  clickhouse.xml:
     file: services/clickhouse/config.xml
+  postgres-entrypoint.sh:
+    file: services/postgres/postgres-entrypoint.sh
+  postgres-init_hba.sh:
+    file: services/postgres/init_hba.sh
 
 volumes:
   smtp:
   smtp-log:
   redis:
+  postgres:
   kafka:
   kafka-secrets:
   clickhouse:
