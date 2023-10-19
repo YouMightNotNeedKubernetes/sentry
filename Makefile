@@ -34,8 +34,11 @@ $(eval $(call create_migration_task,sentry))
 $(eval $(call create_task,relay))
 
 # Primary tasks
+migration: \
+	snuba/migration \
+	sentry/migration
+
 deploy: \
-	dev/deploy \
 	jobs/deploy \
 	snuba/deploy \
 	symbolicator/deploy \
