@@ -26,7 +26,7 @@ $(eval $(call create_task,vroom))
 
 # Primary tasks
 deploy: \
-	deploy/dev 
+	deploy/dev \
 	deploy/jobs \
 	deploy/sentry \
 	deploy/relay \
