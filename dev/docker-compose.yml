@@ -58,8 +58,12 @@ services:
     configs:
       - source: postgres-entrypoint.sh
         target: /opt/sentry/postgres-entrypoint.sh
+        mode: 0755
       - source: postgres-init_hba.sh
-        target: /opt/sentry/postgres-init_hba.sh
+        target: /opt/sentry/init_hba.sh
+        mode: 0755
+      - source: postgres-wal2json.so
+        target: /opt/sentry/wal2json/wal2json.so
     volumes:
       - "postgres:/var/lib/postgresql/data"
 
@@ -144,6 +148,8 @@ configs:
     file: services/postgres/postgres-entrypoint.sh
   postgres-init_hba.sh:
     file: services/postgres/init_hba.sh
+  postgres-wal2json.so:
+    file: services/postgres/wal2json.so
 
 volumes:
   smtp:
