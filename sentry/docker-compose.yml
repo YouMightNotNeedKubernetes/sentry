@@ -66,8 +66,8 @@ x-sentry-defaults: &sentry_defaults
       max_failure_ratio: 1
     resources:
       limits:
-        cpus: '0.2'
-        memory: 512M
+        cpus: '0.4'
+        memory: 1G
 
 services:
   web:
@@ -93,11 +93,6 @@ services:
   worker:
     <<: *sentry_defaults
     command: run worker
-    deploy:
-      resources:
-        limits:
-          cpus: '0.4'
-          memory: 1G
 
   events-consumer:
     <<: *sentry_defaults
