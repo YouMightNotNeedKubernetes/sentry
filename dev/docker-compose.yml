@@ -81,6 +81,9 @@ services:
       nofile:
         soft: 262144
         hard: 262144
+    configs:
+      - source: clickhouse_config
+        target: /etc/clickhouse-server/config.d/sentry.xml
     volumes:
       - "clickhouse:/var/lib/clickhouse"
       - "clickhouse-log:/var/log/clickhouse-server"
@@ -105,6 +108,10 @@ networks:
   sentry:
     name: sentry
     external: true
+
+configs:
+  clickhouse_config:
+    file: services/clickhouse/config.xml
 
 volumes:
   smtp:
