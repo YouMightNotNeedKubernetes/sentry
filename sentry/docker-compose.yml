@@ -14,7 +14,8 @@ x-sentry-defaults: &sentry_defaults
     # redis
     SENTRY_REDIS_HOST: "redis"
     # secret key
-    SENTRY_SECRET_KEY: ${SENTRY_SECRET_KEY:-}
+    SENTRY_SINGLE_ORGANIZATION: "false"
+    SENTRY_SECRET_KEY: "${SENTRY_SECRET_KEY:-}"
     # Force everything to use the system CA bundle
     # This is mostly needed to support installing custom CA certs
     # This one is used by botocore
@@ -25,11 +26,13 @@ x-sentry-defaults: &sentry_defaults
     GRPC_DEFAULT_SSL_ROOTS_FILE_PATH_ENV_VAR: *ca_bundle
     # Leaving the value empty to just pass whatever is set
     # on the host system (or in the .env file)
-    SENTRY_EVENT_RETENTION_DAYS: ${SENTRY_EVENT_RETENTION_DAYS:-90}
-    SENTRY_MAIL_HOST: ${SENTRY_MAIL_HOST:-}
-    SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE: ${SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE:-}
+    SENTRY_EVENT_RETENTION_DAYS: "${SENTRY_EVENT_RETENTION_DAYS:-90}"
+    SENTRY_MAIL_HOST: "${SENTRY_MAIL_HOST:-}"
+    SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE: "${SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE:-1M}"
     # Set this value if you plan on using the Suggested Fix Feature
-    OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+    # Opt-out remote beacon server
+    SENTRY_BEACON: "false"
   configs:
     - source: sentry.yml
       target: /etc/sentry/config.yml
@@ -67,6 +70,12 @@ x-sentry-defaults: &sentry_defaults
         memory: 1G
 
 services:
+  migrate-database:
+    <<: *sentry_defaults
+    command: upgrade --noinput
+    deploy:
+      mode: replicated-job
+
   web:
     <<: *sentry_defaults
     command: ["run", "web"]

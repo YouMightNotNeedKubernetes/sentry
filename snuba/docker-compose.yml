@@ -8,15 +8,15 @@ services:
   snuba-api: &snuba_defaults
     image: getsentry/snuba:nightly
     environment:
-      SNUBA_SETTINGS: self_hosted
-      CLICKHOUSE_HOST: clickhouse
+      SNUBA_SETTINGS: "self_hosted"
+      CLICKHOUSE_HOST: "clickhouse"
       DEFAULT_BROKERS: "kafka:9092"
-      REDIS_HOST: redis
+      REDIS_HOST: "redis"
       UWSGI_MAX_REQUESTS: "10000"
       UWSGI_DISABLE_LOGGING: "true"
       # Leaving the value empty to just pass whatever is set
       # on the host system (or in the .env file)
-      SENTRY_EVENT_RETENTION_DAYS: ${SENTRY_EVENT_RETENTION_DAYS:-90}
+      SENTRY_EVENT_RETENTION_DAYS: "${SENTRY_EVENT_RETENTION_DAYS:-90}"
     networks:
       - sentry
     deploy:

@@ -29,10 +29,10 @@ services:
     image: getsentry/snuba:nightly
     command: bootstrap --no-migrate --force
     environment:
-      SNUBA_SETTINGS: self_hosted
-      CLICKHOUSE_HOST: clickhouse
+      SNUBA_SETTINGS: "self_hosted"
+      CLICKHOUSE_HOST: "clickhouse"
       DEFAULT_BROKERS: "kafka:9092"
-      REDIS_HOST: redis
+      REDIS_HOST: "redis"
     networks:
       - sentry
     deploy:
