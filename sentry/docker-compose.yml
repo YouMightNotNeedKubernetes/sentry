@@ -59,6 +59,10 @@ x-sentry-defaults: &sentry_defaults
       failure_action: rollback
       monitor: 0s
       max_failure_ratio: 1
+    resources:
+      limits:
+        cpus: '0.25'
+        memory: 1G
 
 services:
   web:
