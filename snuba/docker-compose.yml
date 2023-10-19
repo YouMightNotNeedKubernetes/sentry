@@ -16,7 +16,7 @@ services:
       UWSGI_DISABLE_LOGGING: "true"
       # Leaving the value empty to just pass whatever is set
       # on the host system (or in the .env file)
-      SENTRY_EVENT_RETENTION_DAYS: ${SENTRY_EVENT_RETENTION_DAYS:-}
+      SENTRY_EVENT_RETENTION_DAYS: ${SENTRY_EVENT_RETENTION_DAYS:-90}
     networks:
       - sentry
     deploy:
