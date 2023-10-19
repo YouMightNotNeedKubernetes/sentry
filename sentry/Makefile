@@ -10,5 +10,8 @@ deploy:
 migration:
 	@docker stack deploy --resolve-image=never -c docker-compose.migration.yml --with-registry-auth $(docker_stack_name)_$(docker_stack_svr)
 
+credentials:
+	@docker stack deploy --resolve-image=never -c docker-compose.credentials.yml --with-registry-auth $(docker_stack_name)_$(docker_stack_svr)
+
 destroy:
 	@docker stack rm $(docker_stack_name)_$(docker_stack_svr)

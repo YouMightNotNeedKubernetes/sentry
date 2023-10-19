@@ -27,6 +27,13 @@ $(1)/migration:
 	@echo "- [INFO] Stack migration successfully!"
 	@echo
 endef
+define create_credentials_task
+$(1)/credentials:
+	@echo "- [INFO] Running stack credentials creation $(docker_stack_name)_$(1)"
+	@$(MAKE) -C $(1) credentials docker_stack_name=$(docker_stack_name)
+	@echo "- [INFO] Stack credentials created successfully!"
+	@echo
+endef
 
 # Create tasks
 $(eval $(call create_task,dev))
@@ -36,6 +43,7 @@ $(eval $(call create_migration_task,snuba))
 $(eval $(call create_task,symbolicator))
 $(eval $(call create_task,vroom))
 $(eval $(call create_task,sentry))
+$(eval $(call create_credentials_task,sentry))
 $(eval $(call create_migration_task,sentry))
 $(eval $(call create_task,relay))
 $(eval $(call create_task,ingress))
