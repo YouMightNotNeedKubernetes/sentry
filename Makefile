@@ -32,6 +32,7 @@ $(eval $(call create_task,vroom))
 $(eval $(call create_task,sentry))
 $(eval $(call create_migration_task,sentry))
 $(eval $(call create_task,relay))
+$(eval $(call create_task,ingress))
 
 # Primary tasks
 migration: \
@@ -44,9 +45,11 @@ deploy: \
 	symbolicator/deploy \
 	vroom/deploy \
 	sentry/deploy \
-	relay/deploy
+	relay/deploy \
+	ingress/deploy
 
 destroy: \
+	ingress/destroy \
 	relay/destroy \
 	sentry/destroy \
 	vroom/destroy \

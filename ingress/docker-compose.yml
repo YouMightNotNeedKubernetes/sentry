@@ -1,0 +1,24 @@
+services:
+  nginx:
+    image: nginx:1.25.2-alpine
+    networks:
+      - sentry
+    ports:
+      - 8080:80
+    configs:
+      - source: nginx.conf
+        target: /etc/nginx/nginx.conf
+    volumes:
+      - nginx-cache:/var/cache/nginx
+
+networks:
+  sentry:
+    name: sentry
+    external: true
+
+volumes:
+  nginx-cache:
+
+configs:
+  nginx.conf:
+    file: nginx.conf
