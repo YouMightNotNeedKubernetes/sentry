@@ -51,6 +51,23 @@ export KAFKA_DEFAULT_BROKERS="kafka:9092"
 >
 > Run `make dev/deploy` to deploy the development stack.
 
+## Sentry Docker Image
+
+The official Sentry Docker image is continuously updated as `nightly`. It is recommended to use a pinned version of Sentry Docker image for production deployment.
+
+By default this stack will use the `nightly` image but it will not attempt to pull the image from the Docker Registry.
+
+You can pull the image manually by running the following command:
+
+```sh
+# This will pull the latest nightly Sentry image.
+$ make sentry/pull
+
+# or
+# This will pull both development stack images and Sentry images.
+$ make dev/pull
+```
+
 ## Installation
 
 There is not one-click installation for Sentry, but it's not hard to install either. You can install Sentry by following the steps below.
