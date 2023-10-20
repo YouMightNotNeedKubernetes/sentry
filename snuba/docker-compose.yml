@@ -8,9 +8,9 @@ x-snuba-defaults: &snuba_defaults
   image: ${SNUBA_IMAGE}
   environment:
     SNUBA_SETTINGS: "self_hosted"
-    CLICKHOUSE_HOST: "clickhouse"
-    DEFAULT_BROKERS: "kafka:9092"
-    REDIS_HOST: "redis"
+    CLICKHOUSE_HOST: "${CLICKHOUSE_HOST:-clickhouse}"
+    DEFAULT_BROKERS: "${KAFKA_DEFAULT_BROKERS:-kafka:9092}"
+    REDIS_HOST: "${REDIS_HOST:-redis}"
     UWSGI_MAX_REQUESTS: "10000"
     UWSGI_DISABLE_LOGGING: "true"
     # Leaving the value empty to just pass whatever is set
