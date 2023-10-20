@@ -47,8 +47,6 @@ services:
   snuba-migrations:
     <<: *snuba_defaults
     command: migrations migrate --force
-    depends_on:
-      - snuba-bootstrap
     deploy:
       mode: replicated-job
 

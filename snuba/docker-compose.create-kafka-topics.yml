@@ -8,9 +8,6 @@ services:
     entrypoint: ["/create-kafka-topics.sh"]
     networks:
       - sentry
-    depends_on:
-      - snuba-bootstrap
-      - snuba-migrations
     deploy:
       mode: replicated-job
 
