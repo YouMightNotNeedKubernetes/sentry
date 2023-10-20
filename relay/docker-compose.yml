@@ -1,10 +1,6 @@
 services:
   relay:
     image: ${RELAY_IMAGE}
-    environment:
-      RELAY_ID: "${RELAY_ID:-e2777aa1-3881-4bc4-b7b3-6176d658bf00}"
-      RELAY_SECRET_KEY: "${RELAY_SECRET_KEY:-xpyfR__cItA5KOjM5vVdVVSLnclepD2-xXz00aBGEMY}"
-      RELAY_PUBLIC_KEY: "${RELAY_PUBLIC_KEY:-Nq0kEHSlTTBwnod0bpOUeyQzoQwbFNmGUhU6Le5OBcs}"
     networks:
       - sentry
     volumes:
