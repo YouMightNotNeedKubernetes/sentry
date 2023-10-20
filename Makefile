@@ -54,7 +54,7 @@ configs: \
 	relay/configs \
 	sentry/configs
 
-migration: \
+migrations: \
 	snuba/migration \
 	sentry/migration
 
