@@ -2,8 +2,8 @@ services:
   vroom:
     image: ${VROOM_IMAGE}
     environment:
-      SENTRY_KAFKA_BROKERS_PROFILING: "kafka:9092"
-      SENTRY_KAFKA_BROKERS_OCCURRENCES: "kafka:9092"
+      SENTRY_KAFKA_BROKERS_PROFILING: "${KAFKA_DEFAULT_BROKERS:-kafka:9092}"
+      SENTRY_KAFKA_BROKERS_OCCURRENCES: "${KAFKA_DEFAULT_BROKERS:-kafka:9092}"
       SENTRY_BUCKET_PROFILES: "file://localhost//var/lib/sentry-profiles"
       SENTRY_SNUBA_HOST: "http://snuba-api:1218"
     networks:
