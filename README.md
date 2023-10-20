@@ -46,7 +46,7 @@ export CLICKHOUSE_HOST=clickhouse
 export KAFKA_DEFAULT_BROKERS="kafka:9092"
 ```
 
-> ![NOTE]
+> [!NOTE]
 > If you on plan to run a proof-of-concept, there a development stack which will deploy a single replicas of each service mentioned above.
 >
 > Run `make dev/deploy` to deploy the development stack.
@@ -109,7 +109,7 @@ The following command will run database migrations and create topic for kafka us
 $ make migrations
 ```
 
-> ![NOTE]
+> [!NOTE]
 > Please give it a few minutes for the database migrations to complete before continuing.
 >
 > You can check the status of the job by running `docker service logs -f <service>` on the following services:
@@ -128,7 +128,7 @@ Run the following command to deploy Sentry and all necessary services:
 $ make deploy
 ```
 
-> ![NOTE]
+> [!NOTE]
 > The deployment will take a few minutes to complete. You can check the status of the deployment by running `docker service ls` to check the progress.
 
 #### Create Admin User
