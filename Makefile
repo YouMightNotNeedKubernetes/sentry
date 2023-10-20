@@ -3,35 +3,35 @@
 docker_stack_name := sentry
 
 it:
-	@echo "- [INFO] Creating swarm-scoped network for sentry"
-	@{ docker network create --scope=swarm --driver overlay --attachable sentry && echo "- [INFO] Network created successfully!"; } || { echo "[IGNORE] Network already exists"; }
+	@echo "make[-]: Creating swarm-scoped network for sentry"
+	@{ docker network create --scope=swarm --driver overlay --attachable sentry && echo "make[-]: Network created successfully!"; } || { echo "[IGNORE] Network already exists"; }
 
 # funcs
 define create_task
-$(1)/deploy:
-	@echo "- [INFO] Deploying stack $(docker_stack_name)_$(1)"
+.PHONY: $(1)/configs
+$(1)/configs:
+	@echo "make[-]: Creating stack $(docker_stack_name)_$(1) configuration files"
 	@$(MAKE) -C $(1) configs
+	@echo
+$(1)/deploy:
+	@echo "make[-]: Deploying stack $(docker_stack_name)_$(1)"
 	@$(MAKE) -C $(1) deploy docker_stack_name=$(docker_stack_name)
-	@echo "- [INFO] Deployed successfully!"
 	@echo
 $(1)/destroy:
-	@echo "- [INFO] Destroying stack $(docker_stack_name)_$(1)"
+	@echo "make[-]: Destroying stack $(docker_stack_name)_$(1)"
 	@$(MAKE) -C $(1) destroy docker_stack_name=$(docker_stack_name)
-	@echo "- [INFO] Destroyed successfully!"
 	@echo
 endef
 define create_migration_task
 $(1)/migration:
-	@echo "- [INFO] Running stack migration $(docker_stack_name)_$(1)"
+	@echo "make[-]: Running stack migration $(docker_stack_name)_$(1)"
 	@$(MAKE) -C $(1) migration docker_stack_name=$(docker_stack_name)
-	@echo "- [INFO] Stack migration successfully!"
 	@echo
 endef
 define create_credentials_task
 $(1)/credentials:
-	@echo "- [INFO] Running stack credentials creation $(docker_stack_name)_$(1)"
+	@echo "make[-]: Running stack credentials creation $(docker_stack_name)_$(1)"
 	@$(MAKE) -C $(1) credentials docker_stack_name=$(docker_stack_name)
-	@echo "- [INFO] Stack credentials created successfully!"
 	@echo
 endef
 
@@ -49,6 +49,11 @@ $(eval $(call create_task,relay))
 $(eval $(call create_task,ingress))
 
 # Primary tasks
+configs: \
+	snuba/configs \
+	sentry/configs \
+	relay/configs \
+
 migration: \
 	snuba/migration \
 	sentry/migration

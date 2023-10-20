@@ -1,8 +1,12 @@
 docker_stack_name := sentry
 docker_stack_svr := sentry
 
-configs:
-	@echo "[SKIP] No configs available for this stack."
+.PHONY: configs
+configs: configs/config.yml configs/sentry.conf.py
+configs/config.yml:
+	cp configs/config.yml.example configs/sentry.yml
+configs/sentry.conf.py:
+	cp configs/sentry.conf.example.py configs/sentry.conf.py
 
 deploy:
 	@docker stack deploy --resolve-image=never -c docker-compose.yml --with-registry-auth $(docker_stack_name)_$(docker_stack_svr)
