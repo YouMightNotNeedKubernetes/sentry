@@ -57,3 +57,13 @@ Copy the output json of the above command and save it to `relay/configs/credenti
 ### Installation
 
 > WIP
+
+### Prerequisites
+
+You need to have the following services running before you can install Sentry:
+- redis
+- kafka
+- postgres
+- clickhouse
+
+> WIP
