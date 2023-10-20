@@ -74,8 +74,7 @@ destroy: \
 	vroom/destroy \
 	symbolicator/destroy \
 	snuba/destroy \
-	jobs/destroy \
-	dev/destroy
+	jobs/destroy 
 
 dev/pull: sentry/pull
 	@echo "Pulling development images..."
