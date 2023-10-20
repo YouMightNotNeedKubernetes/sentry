@@ -5,25 +5,6 @@ x-healthcheck: &healthcheck_defaults
   start_period: 10s
 
 services:
-  smtp:
-    image: ${EXIM4_IMAGE}
-    hostname: socheat.net
-    volumes:
-      - "smtp:/var/spool/exim4"
-      - "smtp-log:/var/log/exim4"
-    networks:
-      - sentry
-
-  memcached:
-    image: ${MEMCACHED_IMAGE}
-    command: ["-I", "${SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE:-1M}"]
-    healthcheck:
-      <<: *healthcheck_defaults
-      # From: https://stackoverflow.com/a/31877626/5155484
-      test: echo stats | nc 127.0.0.1 11211
-    networks:
-      - sentry
-
   redis:
     image: ${REDIS_IMAGE}
     healthcheck:
@@ -152,8 +133,6 @@ configs:
     file: services/postgres/wal2json.so
 
 volumes:
-  smtp:
-  smtp-log:
   redis:
   postgres:
   kafka:

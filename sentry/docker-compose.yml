@@ -70,6 +70,25 @@ x-sentry-defaults: &sentry_defaults
         memory: 1G
 
 services:
+  smtp:
+    image: ${EXIM4_IMAGE}
+    hostname: ${SENTRY_MAIL_HOST:-}
+    volumes:
+      - "smtp:/var/spool/exim4"
+      - "smtp-log:/var/log/exim4"
+    networks:
+      - sentry
+
+  memcached:
+    image: ${MEMCACHED_IMAGE}
+    command: ["-I", "${SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE:-1M}"]
+    healthcheck:
+      <<: *healthcheck_defaults
+      # From: https://stackoverflow.com/a/31877626/5155484
+      test: echo stats | nc 127.0.0.1 11211
+    networks:
+      - sentry
+
   web:
     <<: *sentry_defaults
     command: ["run", "web"]
@@ -180,6 +199,8 @@ configs:
     file: configs/sentry.conf.py
 
 volumes:
+  smtp:
+  smtp-log:
   sentry-data:
 
   # These are shared volumes from other services.
