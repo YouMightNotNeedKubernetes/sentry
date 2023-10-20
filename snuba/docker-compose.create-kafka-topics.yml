@@ -1,0 +1,24 @@
+services:
+  create-kafka-topics:
+    image: ${KAFKA_IMAGE}
+    configs:
+      - source: create-kafka-topics.sh
+        target: /create-kafka-topics.sh
+        mode: 0755
+    entrypoint: ["/create-kafka-topics.sh"]
+    networks:
+      - sentry
+    depends_on:
+      - snuba-bootstrap
+      - snuba-migrations
+    deploy:
+      mode: replicated-job
+
+networks:
+  sentry:
+    name: sentry
+    external: true
+
+configs:
+  create-kafka-topics.sh:
+    file: services/kafka/create-kafka-topics.sh

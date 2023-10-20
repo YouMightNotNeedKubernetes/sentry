@@ -44,11 +44,9 @@ x-snuba-defaults: &snuba_defaults
     #     memory: 128M
 
 services:
-  snuba-migrations:
+  snuba-bootstrap:
     <<: *snuba_defaults
-    command: migrations migrate --force
-    depends_on:
-      - snuba-bootstrap
+    command: bootstrap --no-migrate --force
     deploy:
       mode: replicated-job
 
