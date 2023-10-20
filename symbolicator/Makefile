@@ -1,8 +1,11 @@
 docker_stack_name := sentry
 docker_stack_svr := symbolicator
 
-configs:
-	@echo "make[-]: No configs available for this stack."
+.PHONY: configs
+configs: configs/config.yml
+
+configs/config.yml:
+	@cp configs/config.example.yml configs/config.yml
 
 deploy:
 	@docker stack deploy --resolve-image=never -c docker-compose.yml --with-registry-auth $(docker_stack_name)_$(docker_stack_svr)

@@ -3,8 +3,10 @@ docker_stack_svr := sentry
 
 .PHONY: configs
 configs: configs/config.yml configs/sentry.conf.py
+
 configs/config.yml:
 	cp configs/config.yml.example configs/sentry.yml
+
 configs/sentry.conf.py:
 	cp configs/sentry.conf.example.py configs/sentry.conf.py
 

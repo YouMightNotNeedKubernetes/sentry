@@ -50,9 +50,9 @@ $(eval $(call create_task,ingress))
 
 # Primary tasks
 configs: \
-	snuba/configs \
-	sentry/configs \
+	symbolicator/configs \
 	relay/configs \
+	sentry/configs
 
 migration: \
 	snuba/migration \
