@@ -13,8 +13,8 @@ configs/sentry.conf.py:
 deploy:
 	@docker stack deploy --resolve-image=never -c docker-compose.yml --with-registry-auth $(docker_stack_name)_$(docker_stack_svr)
 
-migration:
-	@docker stack deploy --resolve-image=never -c docker-compose.migration.yml --with-registry-auth $(docker_stack_name)_$(docker_stack_svr)
+migrations:
+	@docker stack deploy --resolve-image=never -c docker-compose.migrations.yml --with-registry-auth $(docker_stack_name)_$(docker_stack_svr)
 
 credentials:
 	@docker stack deploy --resolve-image=never -c docker-compose.credentials.yml --with-registry-auth $(docker_stack_name)_$(docker_stack_svr)

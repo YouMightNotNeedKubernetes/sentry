@@ -25,7 +25,7 @@ endef
 define create_migration_task
 $(1)/migration:
 	@echo "make[-]: Running stack migration $(docker_stack_name)_$(1)"
-	@$(MAKE) -C $(1) migration docker_stack_name=$(docker_stack_name)
+	@$(MAKE) -C $(1) migrations docker_stack_name=$(docker_stack_name)
 	@echo
 endef
 define create_credentials_task

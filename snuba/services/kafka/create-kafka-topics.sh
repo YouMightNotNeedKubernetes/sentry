@@ -9,6 +9,6 @@ for topic in $NEEDED_KAFKA_TOPICS; do
   if ! echo "$EXISTING_KAFKA_TOPICS" | grep -qE "(^| )$topic( |$)"; then
     kafka-topics --create --topic "$topic" --bootstrap-server kafka:9092
     echo ""
-    sleep 1
+    sleep 2
   fi
 done
