@@ -130,12 +130,15 @@ $ make migrations
 > Please give it a few minutes for the database migrations to complete before continuing.
 >
 > You can check the status of the job by running `docker service logs -f <service>` on the following services:
-> - `sentry_sentry_database-migration`
-> - `sentry_snuba_snuba-bootstrap`
-> - `sentry_snuba_snuba-migrations`
-> - `sentry_snuba_create-kafka-topics`
+> ```
+> sentry_sentry_database-migration   replicated job   0/1 (1/1 completed)
+> sentry_snuba_create-kafka-topics   replicated job   0/1 (1/1 completed)
+> sentry_snuba_snuba-bootstrap       replicated job   0/1 (1/1 completed)
+> sentry_snuba_snuba-migrations      replicated job   0/1 (1/1 completed)
+> ```
 >
 > And run `docker service ls` to see if the jobs are still running or complated.
+
 
 ### Deploy Sentry
 
